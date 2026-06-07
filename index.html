@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Booth Exhibition Challenge</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +26,7 @@
             padding: 0; 
         }
 
+        /* OPTIMASI LAYOUT HP: Mencegah scroll luar yang mengganggu */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
@@ -34,18 +35,21 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            min-height: -webkit-fill-available; /* Trik khusus iOS Safari */
+            padding: 15px;
+            overflow-x: hidden;
         }
 
+        /* Wadah Utama: Dibuat pas dengan layar HP standar pameran */
         .container {
             background: var(--white);
             width: 100%;
-            max-width: 450px;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            padding: 30px;
+            max-width: 420px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 25px 20px;
             text-align: center;
-            border: 4px solid var(--primary);
+            border: 3px solid var(--primary);
             position: relative;
             overflow: hidden;
         }
@@ -54,68 +58,70 @@
         .container::before {
             content: ''; 
             position: absolute; 
-            width: 100px; 
-            height: 100px;
+            width: 80px; 
+            height: 80px;
             background: var(--secondary); 
-            opacity: 0.2; 
+            opacity: 0.15; 
             border-radius: 50%;
-            top: -20px; 
-            right: -20px;
+            top: -15px; 
+            right: -15px;
+            pointer-events: none;
         }
 
         h2 { 
             font-family: 'Comfortaa', cursive; 
-            font-size: 24px; 
-            margin-bottom: 12px; 
+            font-size: 22px; 
+            margin-bottom: 8px; 
             color: var(--dark); 
         }
         
         p { 
-            font-size: 14px; 
+            font-size: 13px; 
             color: #64748b; 
-            margin-bottom: 25px; 
-            line-height: 1.5;
+            margin-bottom: 20px; 
+            line-height: 1.4;
         }
 
-        /* AREA LOGO & FOTO */
+        /* AREA LOGO & FOTO (Responsive) */
         .logo-area { 
-            width: 120px; 
-            height: 120px; 
-            margin: 0 auto 20px auto; 
+            width: 90px; 
+            height: 90px; 
+            margin: 0 auto 15px auto; 
             display: block; 
             object-fit: contain; 
         }
         
         .banner-img { 
             width: 100%; 
-            height: 160px; 
+            height: 130px; 
             object-fit: cover; 
-            border-radius: 20px; 
-            margin-bottom: 20px; 
+            border-radius: 16px; 
+            margin-bottom: 15px; 
         }
 
-        /* STYLING FORM INPUT */
+        /* STYLING FORM INPUT (Mudah diklik jempol di HP) */
         .form-group { 
             text-align: left; 
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
         }
         
         .form-group label { 
             display: block; 
-            font-size: 12px; 
+            font-size: 11px; 
             font-weight: 600; 
-            margin-bottom: 6px; 
+            margin-bottom: 4px; 
             color: #475569; 
         }
         
         input {
             width: 100%; 
-            padding: 12px 15px; 
+            padding: 12px; 
             border: 2px solid #e2e8f0; 
             border-radius: 12px;
             font-family: inherit; 
             font-size: 14px; 
             transition: 0.3s;
+            -webkit-appearance: none; /* Reset style default iOS */
         }
         
         input:focus { 
@@ -124,78 +130,81 @@
             background: #f0fdf4; 
         }
 
-        /* TOMBOL UTAMA */
+        /* TOMBOL UTAMA (Lebar & Empuk untuk Touchscreen) */
         button {
             width: 100%; 
-            padding: 15px; 
+            padding: 14px; 
             background: var(--primary); 
             color: var(--dark);
             border: none; 
-            border-radius: 15px; 
+            border-radius: 12px; 
             font-family: 'Comfortaa', cursive; 
             font-weight: bold;
-            font-size: 16px; 
+            font-size: 15px; 
             cursor: pointer; 
-            margin-top: 10px; 
-            box-shadow: 0 5px 0px #22c55e; 
+            margin-top: 5px; 
+            box-shadow: 0 4px 0px #22c55e; 
             transition: 0.1s;
+            -webkit-tap-highlight-color: transparent;
         }
         
         button:active { 
-            transform: translateY(4px); 
+            transform: translateY(3px); 
             box-shadow: 0 1px 0px #22c55e; 
         }
 
-        /* LAYOUT DASHBOARD GAMES */
+        /* LAYOUT DASHBOARD GAMES (Grid 3 Kolom Sejajar Pas Layar HP) */
         .games-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 12px; 
-            margin-bottom: 25px; 
+            gap: 10px; 
+            margin-bottom: 20px; 
         }
         
         .game-card {
             background: #f8fafc; 
             border: 2px solid #e2e8f0; 
-            border-radius: 20px; 
-            padding: 20px 5px;
+            border-radius: 16px; 
+            padding: 15px 5px;
             cursor: pointer; 
-            transition: 0.3s; 
+            transition: 0.2s; 
             position: relative;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .game-card .icon { 
-            font-size: 32px; 
-            margin-bottom: 8px; 
+            font-size: 28px; 
+            margin-bottom: 6px; 
             display: block; 
         }
         
         .game-card p { 
-            font-size: 11px; 
+            font-size: 10px; 
             font-weight: 600; 
-            margin-bottom: 8px; 
+            margin-bottom: 6px; 
             color: var(--dark);
         }
         
         .badge { 
-            font-size: 10px; 
-            padding: 3px 8px; 
-            border-radius: 10px; 
+            font-size: 9px; 
+            padding: 2px 6px; 
+            border-radius: 8px; 
             background: #cbd5e1; 
             color: #64748b; 
             font-weight: bold;
+            display: inline-block;
         }
 
         /* STATUS KUNCI GAMES */
         .game-card.locked { 
-            opacity: 0.65; 
+            opacity: 0.7; 
         }
         
         .game-card.unlocked { 
             background: #f0fdf4; 
             border-color: var(--primary); 
             opacity: 1; 
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
         
         .game-card.unlocked .badge { 
@@ -203,7 +212,7 @@
             color: var(--dark); 
         }
 
-        /* SISTEM UTILITY */
+        /* UTILITY */
         .hidden { 
             display: none; 
         }
@@ -211,6 +220,15 @@
         .loading-state { 
             opacity: 0.5; 
             pointer-events: none; 
+        }
+
+        /* Optimasi HP Layar Sangat Kecil (Keluarga iPhone SE Lama / Android Mini) */
+        @media (max-width: 360px) {
+            .container { padding: 20px 15px; }
+            h2 { font-size: 18px; }
+            p { font-size: 12px; }
+            .game-card .icon { font-size: 24px; }
+            .game-card p { font-size: 9px; }
         }
     </style>
 </head>
@@ -220,7 +238,6 @@
         
         <section id="page-register">
             <img src="https://placehold.co/150x150/4ade80/ffffff?text=LOGO+ANDA" alt="Logo" class="logo-area">
-            
             <h2>Yuk, Ikutan Seru-seruan! 🎉</h2>
             <p>Lengkapi data Anda di bawah ini untuk mengunci misi berhadiah di booth kami.</p>
             
@@ -247,7 +264,6 @@
 
         <section id="page-dashboard" class="hidden">
             <img src="https://placehold.co/400x160/818cf8/ffffff?text=FOTO+BOOTH+ANDA" alt="Banner" class="banner-img">
-            
             <h2>Misi Booth Anda 🎮</h2>
             <p>Selesaikan ketiga permainan ikonik kami. Laporkan ke kru booth untuk membuka kunci setelah sukses main!</p>
             
@@ -269,120 +285,19 @@
                 </div>
             </div>
 
-            <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 5px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
+            <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
         </section>
 
         <section id="page-finish" class="hidden">
-            <div style="font-size: 70px; margin-bottom: 15px;">🎉</div>
+            <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
             <h2>Selamat, Semua Tantangan Selesai!</h2>
-            <p style="font-size: 16px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
+            <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
             <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
-            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 5px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
+            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai</button>
         </section>
 
     </div>
 
     <script>
         // ==================== CONFIGURATION ====================
-        // URL Google Apps Script Anda sudah otomatis terpasang di sini:
-        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
-
-        // KODE PIN UNTUK MASING-MASING GAME (Otomatis dibuat huruf besar agar aman)
-        const KRW_SECRET_CODES = {
-            1: "GAME1OK",
-            2: "GAME2OK",
-            3: "GAME3OK"
-        };
-        // =======================================================
-
-        let completedGames = { 1: false, 2: false, 3: false };
-
-        // Handle Submit Registrasi & Kirim Data ke Google Sheet + Otomatis Timestamp
-        document.getElementById('form-register').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('btn-submit');
-            const formElement = document.getElementById('form-register');
-            
-            submitBtn.innerText = "Mendaftarkan... Mohon Tunggu ⏳";
-            formElement.classList.add('loading-state');
-
-            const payload = {
-                nama: document.getElementById('nama').value,
-                instansi: document.getElementById('instansi').value,
-                nohp: document.getElementById('nohp').value,
-                email: document.getElementById('email').value
-            };
-
-            fetch(GOOGLE_SHEET_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                mode: 'no-cors'
-            })
-            .then(() => {
-                document.getElementById('page-register').classList.add('hidden');
-                document.getElementById('page-dashboard').classList.remove('hidden');
-            })
-            .catch(err => {
-                alert("Koneksi bermasalah di lokasi exhibition. Coba klik tombol sekali lagi!");
-                submitBtn.innerText = "Mulai Petualangan 🚀";
-                formElement.classList.remove('loading-state');
-            });
-        });
-
-        // Mekanisme Verifikasi Kode dari Kru Booth (ANTI-EROR & ANTI-SPASI)
-        function crewUnlockSystem(gameNumber) {
-            if (completedGames[gameNumber]) return;
-
-            const inputCode = prompt(`[KRU GAME ${gameNumber}] Masukkan kode verifikasi untuk membuka kunci:`);
-            
-            // Jika menekan tombol batalkan/cancel
-            if (inputCode === null) return;
-
-            // Membersihkan spasi di depan/belakang dan memaksa input menjadi HURUF BESAR SEMUA
-            const cleanedInput = inputCode.trim().toUpperCase();
-            const correctCode = KRW_SECRET_CODES[gameNumber].toUpperCase();
-            
-            // Cek kecocokan kode rahasia
-            if (cleanedInput === correctCode) {
-                completedGames[gameNumber] = true;
-                
-                // Ubah Tampilan Card Game dari Locked ke Unlocked
-                const targetCard = document.getElementById(`game-${gameNumber}`);
-                targetCard.classList.remove('locked');
-                targetCard.classList.add('unlocked');
-                document.getElementById(`badge-${gameNumber}`).innerText = "✅ Unlocked";
-                
-                // Evaluasi apakah seluruh game sudah selesai
-                checkAllGamesProgress();
-            } else {
-                // Memberikan info kode apa yang salah dimasukkan agar mudah debug di lapangan
-                alert(`Kode Salah!\nAnda memasukkan: "${inputCode}"\nPastikan kode yang dimasukkan sesuai dengan yang tertera di sistem.`);
-            }
-        }
-
-        // Cek Kelayakan Klaim Hadiah Utama
-        function checkAllGamesProgress() {
-            if (completedGames[1] && completedGames[2] && completedGames[3]) {
-                document.getElementById('btn-claim').classList.remove('hidden');
-            }
-        }
-
-        // Pindah ke Halaman Penutup
-        function goToFinishPage() {
-            document.getElementById('page-dashboard').classList.add('hidden');
-            document.getElementById('page-finish').classList.remove('hidden');
-        }
-
-        // Reset Aplikasi Saat Tombol Akhir Diklik Agar Siap Dipakai Antrean Selanjutnya
-        function resetAppForNextUser() {
-            location.reload();
-        }
-
-        // Reset Aplikasi Saat Tombol Akhir Diklik Agar Siap Dipakai Antrean Selanjutnya
-        function resetAppForNextUser() {
-            location.reload();
-        }
-    </script>
-</body>
-</html>
+        const GOOGLE_SHEET_SCRIPT_URL = "
