@@ -284,10 +284,10 @@
 
     <script>
         // ==================== CONFIGURATION ====================
-        // 🛑 TAUTAN GOOGLE APPS SCRIPT ANDA SUDAH TERPASANG:
+        // URL Google Apps Script Anda sudah otomatis terpasang di sini:
         const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
 
-        // KODE PIN UNTUK MASING-MASING GAME (Bisa Anda ubah sesuai keinginan)
+        // KODE PIN UNTUK MASING-MASING GAME (Otomatis dibuat huruf besar agar aman)
         const KRW_SECRET_CODES = {
             1: "GAME1OK",
             2: "GAME2OK",
@@ -314,14 +314,12 @@
                 email: document.getElementById('email').value
             };
 
-            // AJAX post data ke Google Apps Script
             fetch(GOOGLE_SHEET_SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(payload),
-                mode: 'no-cors' // Menghindari isu blokir CORS browser
+                mode: 'no-cors'
             })
             .then(() => {
-                // Berhasil terkirim, geser ke Halaman Dashboard Game
                 document.getElementById('page-register').classList.add('hidden');
                 document.getElementById('page-dashboard').classList.remove('hidden');
             })
@@ -332,15 +330,21 @@
             });
         });
 
-        // Mekanisme Verifikasi Kode dari Kru Booth
+        // Mekanisme Verifikasi Kode dari Kru Booth (ANTI-EROR & ANTI-SPASI)
         function crewUnlockSystem(gameNumber) {
-            // Jika game ini sudah pernah terbuka, tidak perlu input lagi
             if (completedGames[gameNumber]) return;
 
             const inputCode = prompt(`[KRU GAME ${gameNumber}] Masukkan kode verifikasi untuk membuka kunci:`);
             
+            // Jika menekan tombol batalkan/cancel
+            if (inputCode === null) return;
+
+            // Membersihkan spasi di depan/belakang dan memaksa input menjadi HURUF BESAR SEMUA
+            const cleanedInput = inputCode.trim().toUpperCase();
+            const correctCode = KRW_SECRET_CODES[gameNumber].toUpperCase();
+            
             // Cek kecocokan kode rahasia
-            if (inputCode === KRW_SECRET_CODES[gameNumber]) {
+            if (cleanedInput === correctCode) {
                 completedGames[gameNumber] = true;
                 
                 // Ubah Tampilan Card Game dari Locked ke Unlocked
@@ -349,10 +353,11 @@
                 targetCard.classList.add('unlocked');
                 document.getElementById(`badge-${gameNumber}`).innerText = "✅ Unlocked";
                 
-                // Evaluasi apakah seluruh game (1, 2, dan 3) sudah berstatus sukses
+                // Evaluasi apakah seluruh game sudah selesai
                 checkAllGamesProgress();
-            } else if (inputCode !== null) {
-                alert("Kode Salah! Silakan selesaikan tantangan dengan kru game tersebut.");
+            } else {
+                // Memberikan info kode apa yang salah dimasukkan agar mudah debug di lapangan
+                alert(`Kode Salah!\nAnda memasukkan: "${inputCode}"\nPastikan kode yang dimasukkan sesuai dengan yang tertera di sistem.`);
             }
         }
 
@@ -363,10 +368,15 @@
             }
         }
 
-        // Pindah ke Halaman Penutup (Sudah diperbaiki dari versi crash sebelumnya)
+        // Pindah ke Halaman Penutup
         function goToFinishPage() {
             document.getElementById('page-dashboard').classList.add('hidden');
             document.getElementById('page-finish').classList.remove('hidden');
+        }
+
+        // Reset Aplikasi Saat Tombol Akhir Diklik Agar Siap Dipakai Antrean Selanjutnya
+        function resetAppForNextUser() {
+            location.reload();
         }
 
         // Reset Aplikasi Saat Tombol Akhir Diklik Agar Siap Dipakai Antrean Selanjutnya
