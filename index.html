@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booth Exhibition Challenge</title>
+    
+    <!-- Google Fonts untuk Tampilan Ceria & Profesional -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* TEMA WARNA CHEERFUL PASTEL */
+        :root {
+            --bg-color: #f0fdf4;    /* Hijau mint sangat muda */
+            --primary: #4ade80;     /* Hijau ceria */
+            --secondary: #ffb703;   /* Kuning/Orange cerah */
+            --accent: #818cf8;       /* Ungu soft */
+            --dark: #1e293b;
+            --white: #ffffff;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--white);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 30px;
+            text-align: center;
+            border: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Dekorasi Lingkaran Ceria di Background */
+        .container::before {
+            content: ''; 
+            position: absolute; 
+            width: 100px; 
+            height: 100px;
+            background: var(--secondary); 
+            opacity: 0.2; 
+            border-radius: 50%;
+            top: -20px; 
+            right: -20px;
+        }
+
+        h2 { 
+            font-family: 'Comfortaa', cursive; 
+            font-size: 24px; 
+            margin-bottom: 12px; 
+            color: var(--dark); 
+        }
+        
+        p { 
+            font-size: 14px; 
+            color: #64748b; 
+            margin-bottom: 25px; 
+            line-height: 1.5;
+        }
+
+        /* AREA LOGO & FOTO */
+        .logo-area { 
+            width: 120px; 
+            height: 120px; 
+            margin: 0 auto 20px auto; 
+            display: block; 
+            object-fit: contain; 
+        }
+        
+        .banner-img { 
+            width: 100%; 
+            height: 160px; 
+            object-fit: cover; 
+            border-radius: 20px; 
+            margin-bottom: 20px; 
+        }
+
+        /* STYLING FORM INPUT */
+        .form-group { 
+            text-align: left; 
+            margin-bottom: 15px; 
+        }
+        
+        .form-group label { 
+            display: block; 
+            font-size: 12px; 
+            font-weight: 600; 
+            margin-bottom: 6px; 
+            color: #475569; 
+        }
+        
+        input {
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 12px;
+            font-family: inherit; 
+            font-size: 14px; 
+            transition: 0.3s;
+        }
+        
+        input:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background: #f0fdf4; 
+        }
+
+        /* TOMBOL UTAMA */
+        button {
+            width: 100%; 
+            padding: 15px; 
+            background: var(--primary); 
+            color: var(--dark);
+            border: none; 
+            border-radius: 15px; 
+            font-family: 'Comfortaa', cursive; 
+            font-weight: bold;
+            font-size: 16px; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            box-shadow: 0 5px 0px #22c55e; 
+            transition: 0.1s;
+        }
+        
+        button:active { 
+            transform: translateY(4px); 
+            box-shadow: 0 1px 0px #22c55e; 
+        }
+
+        /* LAYOUT DASHBOARD GAMES */
+        .games-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+        
+        .game-card {
+            background: #f8fafc; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 20px; 
+            padding: 20px 5px;
+            cursor: pointer; 
+            transition: 0.3s; 
+            position: relative;
+        }
+        
+        .game-card .icon { 
+            font-size: 32px; 
+            margin-bottom: 8px; 
+            display: block; 
+        }
+        
+        .game-card p { 
+            font-size: 11px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: var(--dark);
+        }
+        
+        .badge { 
+            font-size: 10px; 
+            padding: 3px 8px; 
+            border-radius: 10px; 
+            background: #cbd5e1; 
+            color: #64748b; 
+            font-weight: bold;
+        }
+
+        /* STATUS KUNCI GAMES */
+        .game-card.locked { 
+            opacity: 0.65; 
+        }
+        
+        .game-card.unlocked { 
+            background: #f0fdf4; 
+            border-color: var(--primary); 
+            opacity: 1; 
+            transform: scale(1.03);
+        }
+        
+        .game-card.unlocked .badge { 
+            background: var(--primary); 
+            color: var(--dark); 
+        }
+
+        /* SISTEM UTILITY */
+        .hidden { 
+            display: none; 
+        }
+        
+        .loading-state { 
+            opacity: 0.5; 
+            pointer-events: none; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- HALAMAN 1: REGISTRASI DATA DIRI -->
+        <section id="page-register">
+            <!-- 📸 SILAKAN GANTI URL DI BAWAH INI DENGAN LINK LOGO ANDA -->
+            <img src="https://placehold.co/150x150/4ade80/ffffff?text=LOGO+ANDA" alt="Logo" class="logo-area">
+            
+            <h2>Yuk, Ikutan Seru-seruan! 🎉</h2>
+            <p>Lengkapi data Anda di bawah ini untuk mengunci misi berhadiah di booth kami.</p>
+            
+            <form id="form-register">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+                <div class="form-group">
+                    <label>Instansi / Perusahaan</label>
+                    <input type="text" id="instansi" placeholder="Contoh: Universitas atau PT Maju Jaya" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Handphone / WhatsApp</label>
+                    <input type="tel" id="nohp" placeholder="Contoh: 08123456789" required>
+                </div>
+                <div class="form-group">
+                    <label>Alamat Email</label>
+                    <input type="email" id="email" placeholder="Contoh: nama@email.com" required>
+                </div>
+                <button type="submit" id="btn-submit">Mulai Petualangan 🚀</button>
+            </form>
+        </section>
+
+        <!-- HALAMAN 2: DASHBOARD ICON GAMES -->
+        <section id="page-dashboard" class="hidden">
+            <!-- 📸 SILAKAN GANTI URL DI BAWAH INI DENGAN LINK FOTO BOOTH/BANNER ANDA -->
+            <img src="https://placehold.co/400x160/818cf8/ffffff?text=FOTO+BOOTH+ANDA" alt="Banner" class="banner-img">
+            
+            <h2>Misi Booth Anda 🎮</h2>
+            <p>Selesaikan ketiga permainan ikonik kami. Laporkan ke kru booth untuk membuka kunci setelah sukses main!</p>
+            
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
+                    <span class="icon">🎮</span>
+                    <p>Mini Game 1</p>
+                    <span class="badge" id="badge-1">🔒 Locked</span>
+                </div>
+                <!-- Game 2 -->
+                <div class="game-card locked" id="game-2" onclick="crewUnlockSystem(2)">
+                    <span class="icon">🧩</span>
+                    <p>Mini Game 2</p>
+                    <span class="badge" id="badge-2">🔒 Locked</span>
+                </div>
+                <!-- Game 3 -->
+                <div class="game-card locked" id="game-3" onclick="crewUnlockSystem(3)">
+                    <span class="icon">🎯</span>
+                    <p>Mini Game 3</p>
+                    <span class="badge" id="badge-3">🔒 Locked</span>
+                </div>
+            </div>
+
+            <!-- Tombol Klaim (Hanya muncul jika 3 game sudah Unlocked) -->
+            <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 5px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
+        </section>
+
+        <!-- HALAMAN 3: SELESAI / TERIMA HADIAH -->
+        <section id="page-finish" class="hidden">
+            <div style="font-size: 70px; margin-bottom: 15px; animation: bounce 1s infinite alternate;">🎉</div>
+            <h2>Selamat, Semua Tantangan Selesai!</h2>
+            <p style="font-size: 16px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
+            <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
+            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 5px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
+        </section>
+
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        // 🛑 PASTE URL GOOGLE APPS SCRIPT ANDA DI ANTARA TANDA PETIK DI BAWAH
+        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
+
+        // KODE PIN UNTUK MASING-MASING GAME (Bisa Anda ubah sesuai keinginan)
+        const KRW_SECRET_CODES = {
+            1: "GAME1OK",
+            2: "GAME2OK",
+            3: "GAME3OK"
+        };
+        // =======================================================
+
+        let completedGames = { 1: false, 2: false, 3: false };
+
+        // Handle Submit Registrasi & Kirim Data ke Google Sheet + Otomatis Timestamp
+        document.getElementById('form-register').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('btn-submit');
+            const formElement = document.getElementById('form-register');
+            
+            submitBtn.innerText = "Mendaftarkan... Mohon Tunggu ⏳";
+            formElement.classList.add('loading-state');
+
+            const payload = {
+                nama: document.getElementById('nama').value,
+                instansi: document.getElementById('instansi').value,
+                nohp: document.getElementById('nohp').value,
+                email: document.getElementById('email').value
+            };
+
+            // AJAX post data ke Google Apps Script
+            fetch(GOOGLE_SHEET_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                mode: 'no-cors' // Menghindari isu blokir CORS browser
+            })
+            .then(() => {
+                // Berhasil terkirim, geser ke Halaman Dashboard Game
+                document.getElementById('page-register').classList.add('hidden');
+                document.getElementById('page-dashboard').classList.remove('hidden');
+            })
+            .catch(err => {
+                alert("Koneksi bermasalah di lokasi exhibition. Coba klik tombol sekali lagi!");
+                submitBtn.innerText = "Mulai Petualangan 🚀";
+                formElement.classList.remove('loading-state');
+            });
+        });
+
+        // Mekanisme Verifikasi Kode dari Kru Booth
+        function crewUnlockSystem(gameNumber) {
+            // Jika game ini sudah pernah terbuka, tidak perlu input lagi
+            if (completedGames[gameNumber]) return;
+
+            const inputCode = prompt(`[KRU GAME ${gameNumber}] Masukkan kode verifikasi untuk membuka kunci:`);
+            
+            // Cek kecocokan kode rahasia
+            if (inputCode === KRW_SECRET_CODES[gameNumber]) {
+                completedGames[gameNumber] = true;
+                
+                // Ubah Tampilan Card Game dari Locked ke Unlocked
+                const targetCard = document.getElementById(`game-${gameNumber}`);
+                targetCard.classList.remove('locked');
+                targetCard.classList.add('unlocked');
+                document.getElementById(`badge-${gameNumber}`).innerText = "✅ Unlocked";
+                
+                // Evaluasi apakah seluruh game (1, 2, dan 3) sudah berstatus sukses
+                checkAllGamesProgress();
+            } else if (inputCode !== null) {
+                alert("Kode Salah! Silakan selesaikan tantangan dengan kru game tersebut.");
+            }
+        }
+
+        // Cek Kelayakan Klaim Hadiah Utama
+        function checkAllGamesProgress() {
+            if (completedGames[1] && completedGames[2] && completedGames[3]) {
+                document.getElementById('btn-claim').classList.remove('hidden');
+            }
+        }
+
+        // Pindah ke Halaman Penutup
+        function goToFinishPage() {
+            document.getElementById('page-dashboard').classList.add('hidden');
+            document.getElementById('page-finish').classList.remove('hidden');
+        }
+
+        // Reset Aplikasi Saat Tombol Akhir Diklik Agar Siap Dipakai Antrean Selanjutnya
+        function resetAppForNextUser() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
