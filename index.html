@@ -222,7 +222,7 @@
             pointer-events: none; 
         }
 
-        /* Optimasi HP Layar Sangat Kecil (Keluarga iPhone SE Lama / Android Mini) */
+        /* Optimasi HP Layar Sangat Kecil */
         @media (max-width: 360px) {
             .container { padding: 20px 15px; }
             h2 { font-size: 18px; }
@@ -293,11 +293,96 @@
             <h2>Selamat, Semua Tantangan Selesai!</h2>
             <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
             <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
-            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai</button>
+            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
         </section>
 
     </div>
 
     <script>
         // ==================== CONFIGURATION ====================
-        const GOOGLE_SHEET_SCRIPT_URL = "
+        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
+
+        const KRW_SECRET_CODES = {
+            1: "GAME1OK",
+            2: "GAME2OK",
+            3: "GAME3OK"
+        };
+        // =======================================================
+
+        let completedGames = { 1: false, 2: false, 3: false };
+
+        // Handle Submit Registrasi & Kirim Data
+        document.getElementById('form-register').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('btn-submit');
+            const formElement = document.getElementById('form-register');
+            
+            submitBtn.innerText = "Mendaftarkan... ⏳";
+            formElement.classList.add('loading-state');
+
+            const payload = {
+                nama: document.getElementById('nama').value,
+                instansi: document.getElementById('instansi').value,
+                nohp: document.getElementById('nohp').value,
+                email: document.getElementById('email').value
+            };
+
+            fetch(GOOGLE_SHEET_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                mode: 'no-cors'
+            })
+            .then(() => {
+                document.getElementById('page-register').classList.add('hidden');
+                document.getElementById('page-dashboard').classList.remove('hidden');
+            })
+            .catch(err => {
+                alert("Koneksi bermasalah di lokasi exhibition. Coba klik tombol sekali lagi!");
+                submitBtn.innerText = "Mulai Petualangan 🚀";
+                formElement.classList.remove('loading-state');
+            });
+        });
+
+        // Mekanisme Verifikasi Kode dari Kru Booth (Anti-Spasi & Case Insensitive)
+        function crewUnlockSystem(gameNumber) {
+            if (completedGames[gameNumber]) return;
+
+            const inputCode = prompt(`[KRU GAME ${gameNumber}] Masukkan kode verifikasi untuk membuka kunci:`);
+            if (inputCode === null) return;
+
+            const cleanedInput = inputCode.trim().toUpperCase();
+            const correctCode = KRW_SECRET_CODES[gameNumber].toUpperCase();
+            
+            if (cleanedInput === correctCode) {
+                completedGames[gameNumber] = true;
+                
+                const targetCard = document.getElementById(`game-${gameNumber}`);
+                targetCard.classList.remove('locked');
+                targetCard.classList.add('unlocked');
+                document.getElementById(`badge-${gameNumber}`).innerText = "✅ Unlocked";
+                
+                checkAllGamesProgress();
+            } else {
+                alert(`Kode Salah!\nAnda memasukkan: "${inputCode}"\nPastikan kode yang dimasukkan sesuai.`);
+            }
+        }
+
+        function checkAllGamesProgress() {
+            if (completedGames[1] && completedGames[2] && completedGames[3]) {
+                document.getElementById('btn-claim').classList.remove('hidden');
+            }
+        }
+
+        function goToFinishPage() {
+            document.getElementById('page-dashboard').classList.add('hidden');
+            document.getElementById('page-finish').classList.remove('hidden');
+        }
+
+        // KEMBALI KE SEMULA: Me-refresh halaman agar siap digunakan oleh antrean berikutnya
+        function resetAppForNextUser() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
