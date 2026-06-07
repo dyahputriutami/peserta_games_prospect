@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booth Exhibition Challenge</title>
     
-    <!-- Google Fonts untuk Tampilan Ceria & Profesional -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -219,9 +218,7 @@
 
     <div class="container">
         
-        <!-- HALAMAN 1: REGISTRASI DATA DIRI -->
         <section id="page-register">
-            <!-- 📸 SILAKAN GANTI URL DI BAWAH INI DENGAN LINK LOGO ANDA -->
             <img src="https://placehold.co/150x150/4ade80/ffffff?text=LOGO+ANDA" alt="Logo" class="logo-area">
             
             <h2>Yuk, Ikutan Seru-seruan! 🎉</h2>
@@ -248,28 +245,23 @@
             </form>
         </section>
 
-        <!-- HALAMAN 2: DASHBOARD ICON GAMES -->
         <section id="page-dashboard" class="hidden">
-            <!-- 📸 SILAKAN GANTI URL DI BAWAH INI DENGAN LINK FOTO BOOTH/BANNER ANDA -->
             <img src="https://placehold.co/400x160/818cf8/ffffff?text=FOTO+BOOTH+ANDA" alt="Banner" class="banner-img">
             
             <h2>Misi Booth Anda 🎮</h2>
             <p>Selesaikan ketiga permainan ikonik kami. Laporkan ke kru booth untuk membuka kunci setelah sukses main!</p>
             
             <div class="games-grid">
-                <!-- Game 1 -->
                 <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
                     <span class="icon">🎮</span>
                     <p>Mini Game 1</p>
                     <span class="badge" id="badge-1">🔒 Locked</span>
                 </div>
-                <!-- Game 2 -->
                 <div class="game-card locked" id="game-2" onclick="crewUnlockSystem(2)">
                     <span class="icon">🧩</span>
                     <p>Mini Game 2</p>
                     <span class="badge" id="badge-2">🔒 Locked</span>
                 </div>
-                <!-- Game 3 -->
                 <div class="game-card locked" id="game-3" onclick="crewUnlockSystem(3)">
                     <span class="icon">🎯</span>
                     <p>Mini Game 3</p>
@@ -277,13 +269,11 @@
                 </div>
             </div>
 
-            <!-- Tombol Klaim (Hanya muncul jika 3 game sudah Unlocked) -->
             <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 5px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
         </section>
 
-        <!-- HALAMAN 3: SELESAI / TERIMA HADIAH -->
         <section id="page-finish" class="hidden">
-            <div style="font-size: 70px; margin-bottom: 15px; animation: bounce 1s infinite alternate;">🎉</div>
+            <div style="font-size: 70px; margin-bottom: 15px;">🎉</div>
             <h2>Selamat, Semua Tantangan Selesai!</h2>
             <p style="font-size: 16px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
             <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
@@ -294,7 +284,7 @@
 
     <script>
         // ==================== CONFIGURATION ====================
-        // 🛑 PASTE URL GOOGLE APPS SCRIPT ANDA DI ANTARA TANDA PETIK DI BAWAH
+        // 🛑 TAUTAN GOOGLE APPS SCRIPT ANDA SUDAH TERPASANG:
         const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
 
         // KODE PIN UNTUK MASING-MASING GAME (Bisa Anda ubah sesuai keinginan)
@@ -373,7 +363,7 @@
             }
         }
 
-        // Pindah ke Halaman Penutup
+        // Pindah ke Halaman Penutup (Sudah diperbaiki dari versi crash sebelumnya)
         function goToFinishPage() {
             document.getElementById('page-dashboard').classList.add('hidden');
             document.getElementById('page-finish').classList.remove('hidden');
