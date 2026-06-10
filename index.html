@@ -91,15 +91,19 @@
             object-fit: contain; 
         }
         
-        .banner-img { 
+        /* 📸 Desain Khusus untuk Gambar Utama di Dashboard */
+        .banner-exhibition { 
             width: 100%; 
-            height: 130px; 
+            height: auto; 
+            max-height: 180px;
             object-fit: cover; 
             border-radius: 16px; 
-            margin-bottom: 15px; 
+            margin-bottom: 18px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border: 2px solid #f1f5f9;
         }
 
-        /* STYLING FORM INPUT (Mudah diklik jempol di HP) */
+        /* STYLING FORM INPUT */
         .form-group { 
             text-align: left; 
             margin-bottom: 12px; 
@@ -121,7 +125,7 @@
             font-family: inherit; 
             font-size: 14px; 
             transition: 0.3s;
-            -webkit-appearance: none; /* Reset style default iOS */
+            -webkit-appearance: none;
         }
         
         input:focus { 
@@ -130,7 +134,7 @@
             background: #f0fdf4; 
         }
 
-        /* TOMBOL UTAMA (Lebar & Empuk untuk Touchscreen) */
+        /* TOMBOL UTAMA */
         button {
             width: 100%; 
             padding: 14px; 
@@ -153,11 +157,11 @@
             box-shadow: 0 1px 0px #22c55e; 
         }
 
-        /* LAYOUT DASHBOARD GAMES (Grid 3 Kolom Sejajar Pas Layar HP) */
+        /* LAYOUT DASHBOARD GAMES (Format Grid Kotak 2x2 Sangat Rapi di HP) */
         .games-grid { 
             display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 12px; 
             margin-bottom: 20px; 
         }
         
@@ -165,7 +169,7 @@
             background: #f8fafc; 
             border: 2px solid #e2e8f0; 
             border-radius: 16px; 
-            padding: 15px 5px;
+            padding: 18px 5px;
             cursor: pointer; 
             transition: 0.2s; 
             position: relative;
@@ -173,13 +177,13 @@
         }
         
         .game-card .icon { 
-            font-size: 28px; 
+            font-size: 32px; 
             margin-bottom: 6px; 
             display: block; 
         }
         
         .game-card p { 
-            font-size: 10px; 
+            font-size: 12px; 
             font-weight: 600; 
             margin-bottom: 6px; 
             color: var(--dark);
@@ -222,13 +226,13 @@
             pointer-events: none; 
         }
 
-        /* Optimasi HP Layar Sangat Kecil */
+        /* Optimasi HP Layar Kecil */
         @media (max-width: 360px) {
             .container { padding: 20px 15px; }
             h2 { font-size: 18px; }
             p { font-size: 12px; }
-            .game-card .icon { font-size: 24px; }
-            .game-card p { font-size: 9px; }
+            .game-card .icon { font-size: 26px; }
+            .game-card p { font-size: 10px; }
         }
     </style>
 </head>
@@ -263,9 +267,10 @@
         </section>
 
         <section id="page-dashboard" class="hidden">
-            <img src="https://placehold.co/400x160/818cf8/ffffff?text=FOTO+BOOTH+ANDA" alt="Banner" class="banner-img">
+            <img src="URL_GAMBAR_ANDA_DI_SINI" alt="Exhibition Banner" class="banner-exhibition" onerror="this.src='https://placehold.co/400x180/818cf8/ffffff?text=FOTO+BOOTH+ATAU+HADIAH'">
+
             <h2>Misi Booth Anda 🎮</h2>
-            <p>Selesaikan ketiga permainan ikonik kami. Laporkan ke kru booth untuk membuka kunci setelah sukses main!</p>
+            <p>Selesaikan minimal <b>3 dari 4 game bebas</b> pilihan Anda untuk membuka peti hadiah spesial!</p>
             
             <div class="games-grid">
                 <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
@@ -283,6 +288,11 @@
                     <p>Mini Game 3</p>
                     <span class="badge" id="badge-3">🔒 Locked</span>
                 </div>
+                <div class="game-card locked" id="game-4" onclick="crewUnlockSystem(4)">
+                    <span class="icon">👾</span>
+                    <p>Mini Game 4</p>
+                    <span class="badge" id="badge-4">🔒 Locked</span>
+                </div>
             </div>
 
             <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
@@ -290,7 +300,7 @@
 
         <section id="page-finish" class="hidden">
             <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
-            <h2>Selamat, Semua Tantangan Selesai!</h2>
+            <h2>Selamat, Tantangan Selesai!</h2>
             <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
             <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
             <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
@@ -302,16 +312,18 @@
         // ==================== CONFIGURATION ====================
         const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
 
+        // Daftar Kode Rahasia untuk masing-masing Game
         const KRW_SECRET_CODES = {
-            1: "1223",
+            1: "GAME1OK",
             2: "GAME2OK",
-            3: "GAME3OK"
+            3: "GAME3OK",
+            4: "GAME4OK"
         };
         // =======================================================
 
-        let completedGames = { 1: false, 2: false, 3: false };
+        let completedGames = { 1: false, 2: false, 3: false, 4: false };
 
-        // Handle Submit Registrasi & Kirim Data
+        // Handle Submit Registrasi
         document.getElementById('form-register').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -368,8 +380,12 @@
             }
         }
 
+        // LOGIKA BARU: Menghitung total game ter-unlock (Bebas kombinasi mana saja)
         function checkAllGamesProgress() {
-            if (completedGames[1] && completedGames[2] && completedGames[3]) {
+            const totalUnlocked = Object.values(completedGames).filter(status => status === true).length;
+            
+            // Cukup 3 game saja dari total 4 game yang tersedia
+            if (totalUnlocked >= 3) {
                 document.getElementById('btn-claim').classList.remove('hidden');
             }
         }
@@ -379,7 +395,7 @@
             document.getElementById('page-finish').classList.remove('hidden');
         }
 
-        // KEMBALI KE SEMULA: Me-refresh halaman agar siap digunakan oleh antrean berikutnya
+        // Selesai & Refresh halaman untuk pengunjung berikutnya tanpa mengunci device
         function resetAppForNextUser() {
             location.reload();
         }
