@@ -47,11 +47,16 @@
             max-width: 420px;
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            padding: 25px 20px;
+            padding: 0 0 25px 0; /* Diubah agar gambar header pas menempel di atas tanpa jarak padding */
             text-align: center;
             border: 3px solid var(--primary);
             position: relative;
             overflow: hidden;
+        }
+
+        /* Padding pembungkus untuk konten teks/form di bawah header agar tetap rapi */
+        .content-wrapper {
+            padding: 20px 20px 0 20px;
         }
 
         /* Dekorasi Lingkaran Ceria di Background */
@@ -66,6 +71,7 @@
             top: -15px; 
             right: -15px;
             pointer-events: none;
+            z-index: 2; /* Menjaga agar lingkaran dekorasi tetap di atas */
         }
 
         h2 { 
@@ -91,16 +97,17 @@
             object-fit: contain; 
         }
         
-        /* 📸 Desain Khusus untuk Gambar Utama di Dashboard */
+        /* 📸 Desain Khusus untuk Gambar Header di Semua Halaman */
         .banner-exhibition { 
             width: 100%; 
             height: auto; 
             max-height: 180px;
             object-fit: cover; 
-            border-radius: 16px; 
-            margin-bottom: 18px; 
+            border-radius: 20px 20px 0 0; /* Sudut melengkung hanya di atas mengikuti container */
+            margin-bottom: 0; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            border: 2px solid #f1f5f9;
+            border-bottom: 2px solid #f1f5f9;
+            display: block;
         }
 
         /* STYLING FORM INPUT */
@@ -228,7 +235,8 @@
 
         /* Optimasi HP Layar Kecil */
         @media (max-width: 360px) {
-            .container { padding: 20px 15px; }
+            .container { padding: 0 0 20px 0; }
+            .content-wrapper { padding: 15px 15px 0 15px; }
             h2 { font-size: 18px; }
             p { font-size: 12px; }
             .game-card .icon { font-size: 26px; }
@@ -240,72 +248,75 @@
 
     <div class="container">
         
-        <section id="page-register">
-            <img src="https://placehold.co/150x150/4ade80/ffffff?text=LOGO+ANDA" alt="Logo" class="logo-area">
-            <h2>Yuk, Selesaikan Tantangan di Booth Prospect Institute! 🎉</h2>
-            <p>Lengkapi data Anda di bawah ini untuk memulai tantangan.</p>
+        <img id="booth-img" alt="Exhibition Banner" class="banner-exhibition">
+
+        <div class="content-wrapper">
             
-            <form id="form-register">
-                <div class="form-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required>
-                </div>
-                <div class="form-group">
-                    <label>Instansi / Perusahaan</label>
-                    <input type="text" id="instansi" placeholder="Contoh: Universitas atau PT Maju Jaya" required>
-                </div>
-                <div class="form-group">
-                    <label>No. Handphone / WhatsApp</label>
-                    <input type="tel" id="nohp" placeholder="Contoh: 08123456789" required>
-                </div>
-                <div class="form-group">
-                    <label>Alamat Email</label>
-                    <input type="email" id="email" placeholder="Contoh: nama@email.com" required>
-                </div>
-                <button type="submit" id="btn-submit">Mulai Tantangan</button>
-            </form>
-        </section>
+            <section id="page-register">
+                <img src="https://placehold.co/150x150/4ade80/ffffff?text=LOGO+ANDA" alt="Logo" class="logo-area">
+                <h2>Yuk, Selesaikan Tantangan di Booth Prospect Institute! 🎉</h2>
+                <p>Lengkapi data Anda di bawah ini untuk memulai tantangan.</p>
+                
+                <form id="form-register">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Instansi / Perusahaan</label>
+                        <input type="text" id="instansi" placeholder="Contoh: Universitas atau PT Maju Jaya" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No. Handphone / WhatsApp</label>
+                        <input type="tel" id="nohp" placeholder="Contoh: 08123456789" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Email</label>
+                        <input type="email" id="email" placeholder="Contoh: nama@email.com" required>
+                    </div>
+                    <button type="submit" id="btn-submit">Mulai Tantangan</button>
+                </form>
+            </section>
 
-        <section id="page-dashboard" class="hidden">
-            <img src="URL_GAMBAR_ANDA_DI_SINI" alt="Exhibition Banner" class="banner-exhibition" onerror="this.src='https://placehold.co/400x180/818cf8/ffffff?text=FOTO+BOOTH+ATAU+HADIAH'">
-
-            <h2>Tantangan Booth Prospect Institute</h2>
-            <p>Selesaikan minimal <b>3 dari 4 tantangan </b> pilihan Anda untuk mendapat hadiah spesial dari Prospect!</p>
-            
-            <div class="games-grid">
-                <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
-                    <span class="icon">🎮</span>
-                    <p>Snap Golf</p>
-                    <span class="badge" id="badge-1">🔒 Locked</span>
+            <section id="page-dashboard" class="hidden">
+                <h2>Tantangan Booth Prospect Institute</h2>
+                <p>Selesaikan minimal <b>3 dari 4 tantangan </b> pilihan Anda untuk mendapat hadiah spesial dari Prospect!</p>
+                
+                <div class="games-grid">
+                    <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
+                        <span class="icon">🎮</span>
+                        <p>Snap Golf</p>
+                        <span class="badge" id="badge-1">🔒 Locked</span>
+                    </div>
+                    <div class="game-card locked" id="game-2" onclick="crewUnlockSystem(2)">
+                        <span class="icon">🧩</span>
+                        <p>Guess and Match</p>
+                        <span class="badge" id="badge-2">🔒 Locked</span>
+                    </div>
+                    <div class="game-card locked" id="game-3" onclick="crewUnlockSystem(3)">
+                        <span class="icon">🎯</span>
+                        <p>Impact Light House</p>
+                        <span class="badge" id="badge-3">🔒 Locked</span>
+                    </div>
+                    <div class="game-card locked" id="game-4" onclick="crewUnlockSystem(4)">
+                        <span class="icon">👾</span>
+                        <p>Rotate The Angle</p>
+                        <span class="badge" id="badge-4">🔒 Locked</span>
+                    </div>
                 </div>
-                <div class="game-card locked" id="game-2" onclick="crewUnlockSystem(2)">
-                    <span class="icon">🧩</span>
-                    <p>Guess and Match</p>
-                    <span class="badge" id="badge-2">🔒 Locked</span>
-                </div>
-                <div class="game-card locked" id="game-3" onclick="crewUnlockSystem(3)">
-                    <span class="icon">🎯</span>
-                    <p>Impact Light House</p>
-                    <span class="badge" id="badge-3">🔒 Locked</span>
-                </div>
-                <div class="game-card locked" id="game-4" onclick="crewUnlockSystem(4)">
-                    <span class="icon">👾</span>
-                    <p>Rotate The Angle</p>
-                    <span class="badge" id="badge-4">🔒 Locked</span>
-                </div>
-            </div>
 
-            <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
-        </section>
+                <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
+            </section>
 
-        <section id="page-finish" class="hidden">
-            <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
-            <h2>Selamat, Anda Telah Menyelesaikan Tantangan!</h2>
-            <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
-            <p>Silakan tunjukkan layar ini ke penukaran hadiah, ya!</p>
-            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
-        </section>
+            <section id="page-finish" class="hidden">
+                <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
+                <h2>Selamat, Anda Telah Menyelesaikan Tantangan!</h2>
+                <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
+                <p>Silakan tunjukkan layar ini ke penukaran hadiah, ya!</p>
+                <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
+            </section>
 
+        </div>
     </div>
 
     <script>
@@ -320,6 +331,9 @@
             4: "prospectjos"
         };
         // =======================================================
+
+        // Memuat file gambar booth baru Anda yang berada di folder utama GitHub
+        document.getElementById('booth-img').src = "boothhlhprospect.jpeg";
 
         let completedGames = { 1: false, 2: false, 3: false, 4: false };
 
