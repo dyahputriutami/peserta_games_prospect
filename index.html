@@ -243,4 +243,160 @@
         <section id="page-register">
             <h2 style="color: var(--primary); font-size: 28px; margin-bottom: 20px;">Prospect</h2>
             <h2>Yuk, Ikutan Seru-seruan! 🎉</h2>
-            <p>Lengkapi data Anda di bawah
+            <p>Lengkapi data Anda di bawah ini untuk mengunci misi berhadiah di booth kami.</p>
+            
+            <form id="form-register">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+                <div class="form-group">
+                    <label>Instansi / Perusahaan</label>
+                    <input type="text" id="instansi" placeholder="Contoh: Universitas atau PT Maju Jaya" required>
+                </div>
+                <div class="form-group">
+                    <label>No. Handphone / WhatsApp</label>
+                    <input type="tel" id="nohp" placeholder="Contoh: 08123456789" required>
+                </div>
+                <div class="form-group">
+                    <label>Alamat Email</label>
+                    <input type="email" id="email" placeholder="Contoh: nama@email.com" required>
+                </div>
+                <button type="submit" id="btn-submit">Mulai Petualangan 🚀</button>
+            </form>
+        </section>
+
+        <section id="page-dashboard" class="hidden">
+            <img src="https://raw.githubusercontent.com/Ais-Aisyah/image-storage/main/WhatsApp%20Image%202026-06-08%20at%2017.09.03.jpeg" alt="Prospect Booth Exhibition" class="banner-exhibition">
+
+            <h2>Misi Booth Anda 🎮</h2>
+            <p>Selesaikan minimal <b>3 dari 4 game bebas</b> pilihan Anda untuk membuka hadiah spesial dari Prospect!</p>
+            
+            <div class="games-grid">
+                <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
+                    <span class="icon">🧩</span>
+                    <p>Guess & Match</p>
+                    <span class="badge" id="badge-1">🔒 Locked</span>
+                </div>
+                <div class="game-card locked" id="game-2" onclick="crewUnlockSystem(2)">
+                    <span class="icon">⛳</span>
+                    <p>Snap Golf</p>
+                    <span class="badge" id="badge-2">🔒 Locked</span>
+                </div>
+                <div class="game-card locked" id="game-3" onclick="crewUnlockSystem(3)">
+                    <span class="icon">🎯</span>
+                    <p>Mini Game 3</p>
+                    <span class="badge" id="badge-3">🔒 Locked</span>
+                </div>
+                <div class="game-card locked" id="game-4" onclick="crewUnlockSystem(4)">
+                    <span class="icon">👾</span>
+                    <p>Mini Game 4</p>
+                    <span class="badge" id="badge-4">🔒 Locked</span>
+                </div>
+            </div>
+
+            <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706; color: var(--dark);" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
+        </section>
+
+        <section id="page-finish" class="hidden">
+            <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
+            <h2>Selamat, Tantangan Selesai!</h2>
+            <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
+            <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
+            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
+        </section>
+
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
+
+        const KRW_SECRET_CODES = {
+            1: "GAME1OK",
+            2: "GAME2OK",
+            3: "GAME3OK",
+            4: "GAME4OK"
+        };
+        // =======================================================
+
+        let completedGames = { 1: false, 2: false, 3: false, 4: false };
+
+        // Handle Submit Registrasi
+        document.getElementById('form-register').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('btn-submit');
+            const formElement = document.getElementById('form-register');
+            
+            submitBtn.innerText = "Mendaftarkan... ⏳";
+            formElement.classList.add('loading-state');
+
+            const payload = {
+                nama: document.getElementById('nama').value,
+                instansi: document.getElementById('instansi').value,
+                nohp: document.getElementById('nohp').value,
+                email: document.getElementById('email').value
+            };
+
+            fetch(GOOGLE_SHEET_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                mode: 'no-cors'
+            })
+            .then(() => {
+                document.getElementById('page-register').classList.add('hidden');
+                document.getElementById('page-dashboard').classList.remove('hidden');
+            })
+            .catch(err => {
+                alert("Koneksi bermasalah di lokasi exhibition. Coba klik tombol sekali lagi!");
+                submitBtn.innerText = "Mulai Petualangan 🚀";
+                formElement.classList.remove('loading-state');
+            });
+        });
+
+        // Mekanisme Verifikasi Kode dari Kru Booth
+        function crewUnlockSystem(gameNumber) {
+            if (completedGames[gameNumber]) return;
+
+            const inputCode = prompt(`[KRU GAME ${gameNumber}] Masukkan kode verifikasi untuk membuka kunci:`);
+            if (inputCode === null) return;
+
+            const cleanedInput = inputCode.trim().toUpperCase();
+            const correctCode = KRW_SECRET_CODES[gameNumber].toUpperCase();
+            
+            if (cleanedInput === correctCode) {
+                completedGames[gameNumber] = true;
+                
+                const targetCard = document.getElementById(`game-${gameNumber}`);
+                targetCard.classList.remove('locked');
+                targetCard.classList.add('unlocked');
+                document.getElementById(`badge-${gameNumber}`).innerText = "✅ Unlocked";
+                
+                checkAllGamesProgress();
+            } else {
+                alert(`Kode Salah!\nAnda memasukkan: "${inputCode}"\nPastikan kode yang dimasukkan sesuai.`);
+            }
+        }
+
+        // Menghitung total game ter-unlock (Bebas kombinasi 3 dari 4)
+        function checkAllGamesProgress() {
+            const totalUnlocked = Object.values(completedGames).filter(status => status === true).length;
+            
+            if (totalUnlocked >= 3) {
+                document.getElementById('btn-claim').classList.remove('hidden');
+            }
+        }
+
+        function goToFinishPage() {
+            document.getElementById('page-dashboard').classList.add('hidden');
+            document.getElementById('page-finish').classList.remove('hidden');
+        }
+
+        // Selesai & Refresh halaman
+        function resetAppForNextUser() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
