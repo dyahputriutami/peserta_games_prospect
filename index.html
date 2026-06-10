@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Booth Exhibition Challenge</title>
+    <title>Prospect Booth Challenge</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* TEMA WARNA CHEERFUL PASTEL */
+        /* TEMA WARNA CHEERFUL PASTEL (Disesuaikan dengan nuansa Hijau Prospect) */
         :root {
             --bg-color: #f0fdf4;    /* Hijau mint sangat muda */
-            --primary: #4ade80;     /* Hijau ceria */
+            --primary: #22c55e;     /* Hijau ceria Prospect */
             --secondary: #ffb703;   /* Kuning/Orange cerah */
-            --accent: #818cf8;       /* Ungu soft */
+            --accent: #15803d;       /* Hijau tua */
             --dark: #1e293b;
             --white: #ffffff;
         }
@@ -84,23 +84,23 @@
 
         /* AREA LOGO & FOTO (Responsive) */
         .logo-area { 
-            width: 90px; 
-            height: 90px; 
+            width: 140px; 
+            height: auto; 
             margin: 0 auto 15px auto; 
             display: block; 
             object-fit: contain; 
         }
         
-        /* 📸 Desain Khusus untuk Gambar Utama di Dashboard */
+        /* 📸 Desain Khusus untuk Gambar Banner Booth Prospect Anda */
         .banner-exhibition { 
             width: 100%; 
             height: auto; 
-            max-height: 180px;
+            max-height: 200px;
             object-fit: cover; 
             border-radius: 16px; 
             margin-bottom: 18px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            border: 2px solid #f1f5f9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid #e2e8f0;
         }
 
         /* STYLING FORM INPUT */
@@ -139,7 +139,7 @@
             width: 100%; 
             padding: 14px; 
             background: var(--primary); 
-            color: var(--dark);
+            color: var(--white);
             border: none; 
             border-radius: 12px; 
             font-family: 'Comfortaa', cursive; 
@@ -147,14 +147,14 @@
             font-size: 15px; 
             cursor: pointer; 
             margin-top: 5px; 
-            box-shadow: 0 4px 0px #22c55e; 
+            box-shadow: 0 4px 0px #16a34a; 
             transition: 0.1s;
             -webkit-tap-highlight-color: transparent;
         }
         
         button:active { 
             transform: translateY(3px); 
-            box-shadow: 0 1px 0px #22c55e; 
+            box-shadow: 0 1px 0px #16a34a; 
         }
 
         /* LAYOUT DASHBOARD GAMES (Format Grid Kotak 2x2 Sangat Rapi di HP) */
@@ -213,7 +213,7 @@
         
         .game-card.unlocked .badge { 
             background: var(--primary); 
-            color: var(--dark); 
+            color: var(--white); 
         }
 
         /* UTILITY */
@@ -241,164 +241,6 @@
     <div class="container">
         
         <section id="page-register">
-            <img src="https://placehold.co/150x150/4ade80/ffffff?text=LOGO+ANDA" alt="Logo" class="logo-area">
+            <h2 style="color: var(--primary); font-size: 28px; margin-bottom: 20px;">Prospect</h2>
             <h2>Yuk, Ikutan Seru-seruan! 🎉</h2>
-            <p>Lengkapi data Anda di bawah ini untuk mengunci misi berhadiah di booth kami.</p>
-            
-            <form id="form-register">
-                <div class="form-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required>
-                </div>
-                <div class="form-group">
-                    <label>Instansi / Perusahaan</label>
-                    <input type="text" id="instansi" placeholder="Contoh: Universitas atau PT Maju Jaya" required>
-                </div>
-                <div class="form-group">
-                    <label>No. Handphone / WhatsApp</label>
-                    <input type="tel" id="nohp" placeholder="Contoh: 08123456789" required>
-                </div>
-                <div class="form-group">
-                    <label>Alamat Email</label>
-                    <input type="email" id="email" placeholder="Contoh: nama@email.com" required>
-                </div>
-                <button type="submit" id="btn-submit">Mulai Petualangan 🚀</button>
-            </form>
-        </section>
-
-        <section id="page-dashboard" class="hidden">
-            <img src="URL_GAMBAR_ANDA_DI_SINI" alt="Exhibition Banner" class="banner-exhibition" onerror="this.src='https://placehold.co/400x180/818cf8/ffffff?text=FOTO+BOOTH+ATAU+HADIAH'">
-
-            <h2>Misi Booth Anda 🎮</h2>
-            <p>Selesaikan minimal <b>3 dari 4 game bebas</b> pilihan Anda untuk membuka peti hadiah spesial!</p>
-            
-            <div class="games-grid">
-                <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
-                    <span class="icon">🎮</span>
-                    <p>Mini Game 1</p>
-                    <span class="badge" id="badge-1">🔒 Locked</span>
-                </div>
-                <div class="game-card locked" id="game-2" onclick="crewUnlockSystem(2)">
-                    <span class="icon">🧩</span>
-                    <p>Mini Game 2</p>
-                    <span class="badge" id="badge-2">🔒 Locked</span>
-                </div>
-                <div class="game-card locked" id="game-3" onclick="crewUnlockSystem(3)">
-                    <span class="icon">🎯</span>
-                    <p>Mini Game 3</p>
-                    <span class="badge" id="badge-3">🔒 Locked</span>
-                </div>
-                <div class="game-card locked" id="game-4" onclick="crewUnlockSystem(4)">
-                    <span class="icon">👾</span>
-                    <p>Mini Game 4</p>
-                    <span class="badge" id="badge-4">🔒 Locked</span>
-                </div>
-            </div>
-
-            <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
-        </section>
-
-        <section id="page-finish" class="hidden">
-            <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
-            <h2>Selamat, Tantangan Selesai!</h2>
-            <p style="font-size: 15px; color: var(--dark); font-weight: 600; margin-bottom: 10px;">Anda Luar Biasa!</p>
-            <p>Silakan tunjukkan layar handphone ini ke kru meja penukaran untuk mengambil hadiah spesial Anda.</p>
-            <button onclick="resetAppForNextUser()" style="background: #e2e8f0; box-shadow: 0 4px 0px #cbd5e1; color: #475569;">Selesai / Pengunjung Baru</button>
-        </section>
-
-    </div>
-
-    <script>
-        // ==================== CONFIGURATION ====================
-        const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
-
-        // Daftar Kode Rahasia untuk masing-masing Game
-        const KRW_SECRET_CODES = {
-            1: "GAME1OK",
-            2: "GAME2OK",
-            3: "GAME3OK",
-            4: "GAME4OK"
-        };
-        // =======================================================
-
-        let completedGames = { 1: false, 2: false, 3: false, 4: false };
-
-        // Handle Submit Registrasi
-        document.getElementById('form-register').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('btn-submit');
-            const formElement = document.getElementById('form-register');
-            
-            submitBtn.innerText = "Mendaftarkan... ⏳";
-            formElement.classList.add('loading-state');
-
-            const payload = {
-                nama: document.getElementById('nama').value,
-                instansi: document.getElementById('instansi').value,
-                nohp: document.getElementById('nohp').value,
-                email: document.getElementById('email').value
-            };
-
-            fetch(GOOGLE_SHEET_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                mode: 'no-cors'
-            })
-            .then(() => {
-                document.getElementById('page-register').classList.add('hidden');
-                document.getElementById('page-dashboard').classList.remove('hidden');
-            })
-            .catch(err => {
-                alert("Koneksi bermasalah di lokasi exhibition. Coba klik tombol sekali lagi!");
-                submitBtn.innerText = "Mulai Petualangan 🚀";
-                formElement.classList.remove('loading-state');
-            });
-        });
-
-        // Mekanisme Verifikasi Kode dari Kru Booth (Anti-Spasi & Case Insensitive)
-        function crewUnlockSystem(gameNumber) {
-            if (completedGames[gameNumber]) return;
-
-            const inputCode = prompt(`[KRU GAME ${gameNumber}] Masukkan kode verifikasi untuk membuka kunci:`);
-            if (inputCode === null) return;
-
-            const cleanedInput = inputCode.trim().toUpperCase();
-            const correctCode = KRW_SECRET_CODES[gameNumber].toUpperCase();
-            
-            if (cleanedInput === correctCode) {
-                completedGames[gameNumber] = true;
-                
-                const targetCard = document.getElementById(`game-${gameNumber}`);
-                targetCard.classList.remove('locked');
-                targetCard.classList.add('unlocked');
-                document.getElementById(`badge-${gameNumber}`).innerText = "✅ Unlocked";
-                
-                checkAllGamesProgress();
-            } else {
-                alert(`Kode Salah!\nAnda memasukkan: "${inputCode}"\nPastikan kode yang dimasukkan sesuai.`);
-            }
-        }
-
-        // LOGIKA BARU: Menghitung total game ter-unlock (Bebas kombinasi mana saja)
-        function checkAllGamesProgress() {
-            const totalUnlocked = Object.values(completedGames).filter(status => status === true).length;
-            
-            // Cukup 3 game saja dari total 4 game yang tersedia
-            if (totalUnlocked >= 3) {
-                document.getElementById('btn-claim').classList.remove('hidden');
-            }
-        }
-
-        function goToFinishPage() {
-            document.getElementById('page-dashboard').classList.add('hidden');
-            document.getElementById('page-finish').classList.remove('hidden');
-        }
-
-        // Selesai & Refresh halaman untuk pengunjung berikutnya tanpa mengunci device
-        function resetAppForNextUser() {
-            location.reload();
-        }
-    </script>
-</body>
-</html>
+            <p>Lengkapi data Anda di bawah
