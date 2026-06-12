@@ -270,7 +270,7 @@
 
             <section id="page-dashboard" class="hidden">
                 <h2>Tantangan Booth Prospect Institute</h2>
-                <p>Selesaikan minimal <b>3 dari 4 tantangan </b> pilihan Anda untuk mendapat hadiah spesial dari Prospect!</p>
+                <p>Selesaikan minimal <b>3 dari 5 tantangan </b> pilihan Anda untuk mendapat hadiah spesial dari Prospect!</p>
                 
                 <div class="games-grid">
                     <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
@@ -293,6 +293,12 @@
                         <p>Rotate The Angle</p>
                         <span class="badge" id="badge-4">🔒 Locked</span>
                     </div>
+                    <!-- GAME BARU KE-5 -->
+                    <div class="game-card locked" id="game-5" onclick="crewUnlockSystem(5)">
+                        <span class="icon">🧭</span>
+                        <p>ASRI Exploration</p>
+                        <span class="badge" id="badge-5">🔒 Locked</span>
+                    </div>
                 </div>
 
                 <button id="btn-claim" class="hidden" style="background: var(--secondary); box-shadow: 0 4px 0px #d97706;" onclick="goToFinishPage()">KLAIM HADIAH SEKARANG! 🎁</button>
@@ -313,19 +319,21 @@
         // ==================== CONFIGURATION ====================
         const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMketomLFnms_hjenj46PVVZVMouHDCONTMNbEcLYh2Qh9Fyg_13XEGNwYP7WiIf6H/exec";
 
-        // Daftar Kode Rahasia untuk masing-masing Game
+        // Daftar Kode Rahasia untuk masing-masing Game (Termasuk Game 5)
         const KRW_SECRET_CODES = {
             1: "prospectjos",
             2: "prospectjos",
             3: "prospectjos",
-            4: "prospectjos"
+            4: "prospectjos",
+            5: "prospectjos"
         };
         // =======================================================
 
         // Memuat file gambar booth baru Anda yang berada di folder utama GitHub
         document.getElementById('booth-img').src = "boothhlhprospect.jpeg";
 
-        let completedGames = { 1: false, 2: false, 3: false, 4: false };
+        // Mengatur status awal pelacakan untuk 5 game
+        let completedGames = { 1: false, 2: false, 3: false, 4: false, 5: false };
 
         // Handle Submit Registrasi
         document.getElementById('form-register').addEventListener('submit', function(e) {
@@ -384,11 +392,11 @@
             }
         }
 
-        // LOGIKA BARU: Menghitung total game ter-unlock (Bebas kombinasi mana saja)
+        // LOGIKA BARU: Menghitung total game ter-unlock (Cukup 3 dari 5 pilihan)
         function checkAllGamesProgress() {
             const totalUnlocked = Object.values(completedGames).filter(status => status === true).length;
             
-            // Cukup 3 game saja dari total 4 game yang tersedia
+            // Pengunjung cukup menyelesaikan minimal 3 kegiatan bebas dari 5 opsi
             if (totalUnlocked >= 3) {
                 document.getElementById('btn-claim').classList.remove('hidden');
             }
