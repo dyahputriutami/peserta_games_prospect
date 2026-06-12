@@ -270,7 +270,7 @@
 
             <section id="page-dashboard" class="hidden">
                 <h2>Tantangan Booth Prospect Institute</h2>
-                <p>Selesaikan minimal <b>3 dari 5 tantangan </b> pilihan Anda untuk mendapat hadiah spesial dari Prospect!</p>
+                <p>Wajib selesaikan <b>Photobooth</b> + minimal <b>2 games bebas</b> lainnya untuk mendapat hadiah spesial dari Prospect! 🎁</p>
                 
                 <div class="games-grid">
                     <div class="game-card locked" id="game-1" onclick="crewUnlockSystem(1)">
@@ -293,10 +293,10 @@
                         <p>Rotate The Angle</p>
                         <span class="badge" id="badge-4">🔒 Locked</span>
                     </div>
-                    <!-- GAME BARU KE-5 -->
+                    <!-- GAME WAJIB (GAME 5) -->
                     <div class="game-card locked" id="game-5" onclick="crewUnlockSystem(5)">
-                        <span class="icon">🧭</span>
-                        <p>Photobooth</p>
+                        <span class="icon">📸</span>
+                        <p>Photobooth ⭐</p>
                         <span class="badge" id="badge-5">🔒 Locked</span>
                     </div>
                 </div>
@@ -392,13 +392,17 @@
             }
         }
 
-        // LOGIKA BARU: Menghitung total game ter-unlock (Cukup 3 dari 5 pilihan)
+        // LOGIKA BARU: Wajib Photobooth (Game 5) DAN Minimal 2 Game Lainnya
         function checkAllGamesProgress() {
-            const totalUnlocked = Object.values(completedGames).filter(status => status === true).length;
+            // Hitung berapa banyak game dari 1 s.d 4 yang sudah diselesaikan
+            const optionalGamesCount = [1, 2, 3, 4].filter(num => completedGames[num] === true).length;
+            const isPhotoboothDone = completedGames[5]; // Status Game 5 (Photobooth)
             
-            // Pengunjung cukup menyelesaikan minimal 3 kegiatan bebas dari 5 opsi
-            if (totalUnlocked >= 3) {
+            // Tombol klaim muncul hanya jika Photobooth sudah unlock DAN minimal ada 2 game lain yang unlock
+            if (isPhotoboothDone && optionalGamesCount >= 2) {
                 document.getElementById('btn-claim').classList.remove('hidden');
+            } else {
+                document.getElementById('btn-claim').classList.add('hidden');
             }
         }
 
